@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_SocialAffiliate
+ * @version     0.1.2
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ * */
+ -->
+<layout version="0.1.0">
+ <default>
+         <reference name="top.links">            
+              <action method="addLink" translate="label title" ifconfig="invitefriends/invitefriends_enable/enable_invitefriends">
+                <label>Social Affiliate</label>
+                <url>invitefriends</url>
+                <title>Social Affiliate</title>
+                <prepare>true</prepare>
+                <urlParams/>
+            </action>
+        </reference>
+    </default>
+     <checkout_cart_index>
+     <reference name="checkout.cart">
+         <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="invitefriends/cart/totals.phtml" />
+        </reference>
+     </checkout_cart_index>
+    <customer_account translate="label">
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" ifconfig="invitefriends/invitefriends_enable/enable_invitefriends">
+                <name>invitefriends</name>
+                <path>invitefriends/invitefriends/</path>
+                <label>Affiliate Transactions</label>
+            </action>
+        </reference>
+    </customer_account>
+     <invitefriends_invitefriends_index>
+    	<update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss"><stylesheet>apptha_invitefriends/css/invite_styles.css</stylesheet></action>
+        </reference>
+    	<reference name="content">
+	        <block type="invitefriends/invitefriends" name="customer_invitefriends_dashboard" template="invitefriends/customer/account/invitefriends.phtml">
+<!--	            <block type="invitefriends/invitefriends_info" name="customer_invitefriends_info" as="info" template="invitefriends/customer/account/invitefriends/info.phtml"/>-->
+	            <block type="invitefriends/invitefriends_transaction" name="customer_invitefriends_transaction" as="transaction" template="invitefriends/customer/account/invitefriends/transaction.phtml">
+	            	<action method="setPageSize"><page_size>15</page_size></action>
+	            </block>
+	        </block>
+        </reference>
+    </invitefriends_invitefriends_index>
+    <invitefriends_index_fbinvite>
+	    <reference name="content">
+		    <block type="invitefriends/invites" name="customer_fb_invite" as="totals" template="invitefriends/socialinvites/fbinvite.phtml">
+		   </block>
+            </reference>
+    </invitefriends_index_fbinvite>
+    <invitefriends_index_gmailinvite>
+        <reference name="head">
+            <action method="addCss"><stylesheet>apptha_invitefriends/css/invite_styles.css</stylesheet></action>
+        </reference>
+	    <reference name="content">
+		    <block type="invitefriends/invites" name="customer_gmail_invite" as="totals" template="invitefriends/socialinvites/gmailinvite.phtml">
+		   </block>
+            </reference>
+    </invitefriends_index_gmailinvite>
+    <invitefriends_index_twitterinvite>
+        <reference name="head">
+            <action method="addCss"><stylesheet>apptha_invitefriends/css/invite_styles.css</stylesheet></action>
+        </reference>
+	    <reference name="content">
+		    <block type="invitefriends/invites" name="customer_twitter_invite" as="totals" template="invitefriends/socialinvites/twitterinvite.phtml">
+		   </block>
+            </reference>
+    </invitefriends_index_twitterinvite>
+   
+    <invitefriends_index_index>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss"><stylesheet>apptha_invitefriends/css/invite_styles.css</stylesheet></action>
+        </reference>
+<!--          <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>-->
+        <reference name="content">
+            <block type="invitefriends/invitefriends" name="invitefriends" template="invitefriends/invitefriends.phtml" />
+        </reference>        
+    </invitefriends_index_index>
+</layout> 

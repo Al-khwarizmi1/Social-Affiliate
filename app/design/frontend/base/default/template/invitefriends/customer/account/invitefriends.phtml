@@ -1,0 +1,61 @@
+<?php
+/**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_SocialAffiliate
+ * @version     0.1.2
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ * */
+?>
+<div class="dashboard">
+    <div class="trans_history page-head">
+		<?php $tag = version_compare(Mage::getVersion(),'1.4.0.1','>=')?'h2':'h3'; ?>
+        <<?php echo $tag?>><?php echo $this->__($this->getTitle()) ?></<?php echo $tag?>>
+        <div class="top_count">
+            <span> <?php echo $this->__('Referral count') ?> <b>(<?php echo  Mage::helper('invitefriends')->calcTotalrefered(); ?>)</b></span>
+            <span> <?php echo $this->__('Purchased count') ?> <b>(<?php echo  Mage::helper('invitefriends')->calcTotalreferedpurchase(); ?>)</b> </span>
+        </div>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php if($this->getChild('info')):?>
+    <div class="box-account box-info account-box ad-account-info">
+        <div class="head box-head">
+		<?php $tag = version_compare(Mage::getVersion(),'1.4.0.1','>=')?'h2':'h4'; ?>
+		<<?php echo $tag?>><?php echo $this->__('Credits Information') ?></<?php echo $tag;?>>
+        </div>
+        <?php echo $this->getChildHtml('info') ?>
+    </div>
+    <?php endif;?>
+    <?php if($this->getChild('transaction')):?>
+    <div class="box-account box-recent account-box ad-orders">
+<!--        <div class="head box-head">
+            <<?php echo $tag;?>><?php echo $this->__('Transaction History') ?></<?php echo $tag;?>>            
+        </div>-->
+        <?php echo $this->getChildHtml('transaction') ?>
+    </div>
+    <?php endif;?>  	
+    
+    
+    <a href="<?php echo Mage::getBaseUrl(); ?>invitefriends" class="back_link"><?php echo '&#171; '.$this->__('Back to affiliate') ?></a>
+</div>

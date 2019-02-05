@@ -1,0 +1,193 @@
+<?php
+/**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_SocialAffiliate
+ * @version     0.1.2
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ * */
+if(Mage::helper('invitefriends')->isInvitefriendsEnabled()) {
+
+$logoSrc = Mage::getStoreConfig('design/header/logo_src');
+$siteLogo = $this->getSkinUrl($logoSrc);
+?>
+<?php
+$CustomerData = Mage::getModel('invitefriends/customer')->getCustomerdetails();
+//get currency symbol
+$currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+$calcTotalCredit = Mage::helper('invitefriends')->calcTotalCredit($CustomerData->getId());
+$calcBalance = Mage::helper('invitefriends')->calcBalance($CustomerData->getId());
+$calcTotalDebit = Mage::helper('invitefriends')->calcTotalDebit($CustomerData->getId());
+$calcTotalBalance = Mage::helper('invitefriends')->calcTotalBalance($CustomerData->getId());
+$rootCategoryId = Mage::app()->getStore()->getRootCategoryId();
+$rootCategory = Mage::getModel('catalog/category')->load($rootCategoryId);
+?>
+<!-- new templates -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic,latin-ext' rel='stylesheet' type='text/css'>
+<div id="social_affiliates">
+                <div class="top_layout">
+                <h3><?php echo $CustomerData->getName();?></h3>
+                <h4 class="balance_points"><?php echo $this->__('Balance amount'); ?>: <?php echo $currencySymbol; if($calcBalance){ echo  number_format($calcBalance,2); } else { echo '0'; } ?></h4>
+                <div class="clear"></div>
+                </div>
+                <div class="user_points">
+                    <span class="floatleft"><?php echo $this->__('Total amount earned'); ?>: <em><?php echo $currencySymbol; if($calcTotalBalance){ echo  number_format($calcTotalBalance,2); } else { echo '0'; } ?></em></span>
+                    <span class="floatright right_points"><?php echo $this->__('Redeemed so for'); ?>: <em><?php echo $currencySymbol; if($calcTotalDebit){ echo  number_format($calcTotalDebit,2); } else { echo '0'; } ?></em></span>
+                </div>
+                 <div class="clear"></div>
+                <div class="referral-link">
+
+                    <h5 class="left_name"><?php echo $this->__('Referral Link'); ?></h5>
+                    <span class="input_field">
+
+                    <input type="text" name="q" id="copy_input" value="<?php echo Mage::getModel('invitefriends/customer')->getRefferalLink()?>" readonly="readonly" >
+                    <a class="copy_link">
+
+                        <embed width="37" height="32" id="embed" src="<?php echo $this->getSkinUrl('apptha_invitefriends/swf/textclip.swf');?>?copytext=<?php echo Mage::getModel('invitefriends/customer')->getRefferalLink()?>" />
+
+                         <span class="copied affiliates-sprite" id="copy_span"><?php echo $this->__('copied');?> </span>
+                        <span class="tooltip affiliates-sprite" id="copy_span"><?php echo $this->__('copy the link');?> </span>
+              </a>
+                    </span>
+                    <div class="clear"></div>
+                </div>
+
+                 <div class="info_layout">
+                     <div class="info_line">
+
+                     <span><?php echo $this->__('Add'); ?>   <b> ?ref=<?php echo $CustomerData->getEmail();?></b>   <?php echo $this->__('at the end of any product / category url to refer any product'); ?> </span>
+                     <div class="clear"></div>
+                     </div>
+                     <div class="clear"></div>
+                     <div class="eg_box">
+                         <i class="affiliates-sprite eg_icon"><span class="eg_text"><?php echo $this->__('Example'); ?></span></i>
+
+                         <div class="left_link"> <span><?php echo Mage::getUrl('',array('_secure'=>true)); ?>sample/category/?ref=<?php echo $CustomerData->getEmail();?> </span>   <span>  <?php echo Mage::getUrl('',array('_secure'=>true)); ?>sample/product/?ref=<?php echo $CustomerData->getEmail();?>   </span></div>
+                         <div class="clear"></div>
+                     </div>
+
+                 </div>
+
+                     <div  class="clear"></div>
+                     <div class="show_space">
+                     <div class="show_case">
+                         <div class="content_box">
+
+                         <h3 class="htitle"><?php echo $this->__('How it works?'); ?></h3>
+                         <span class="text_content"><?php echo $this->__('For every purchase you will earn'); ?> </span>
+                         <span class="bonus_points"><?php echo Mage::getStoreConfig('invitefriends/invitefriends_enable/purchase_credit'); ?>%</span>
+                         </div>
+                     </div>
+
+                     <div class="show_case center_space">
+                         <div class="content_box">
+
+                         <h3 class="htitle"><?php echo $this->__('Bonus amount'); ?></h3>
+                         <span class="text_content"><?php echo $this->__('For every'); ?> <b><?php echo $currencySymbol.Mage::getStoreConfig('invitefriends/invitefriends_enable/every_purchase'); ?></b> <?php echo $this->__('on your balance amount you will earn additional'); ?> </span>
+                         <span class="bonus_points"><?php echo $currencySymbol.Mage::getStoreConfig('invitefriends/invitefriends_enable/bonus_credit'); ?></span>
+                         </div>
+                     </div>
+
+                     <div class="show_case no-margin">
+                         <div class="content_box">
+
+                         <h3 class="htitle"><?php echo $this->__('Invite friends'); ?></h3>
+                         <div id="showmail">
+                             <div class="pop_up_grid">
+                                 <div class="white_container">
+                                     <a onclick="document.getElementById('showmail').style.display='none';"class="popupclose" >  </a>
+               <form id="form-validate" method="post" action="<?php echo $this->getUrl('invitefriends/index/sendEmail')?>">
+               <h3><?php echo $this->__('Invite Friends via Email');?></h3>
+        <span><?php echo $this->__('Addresses separated by commas.');?></span>
+        <div class="clearfix">
+             <div class="invite_grid"><input type="text" name="email" value="" class="input-text required-entry ">
+             </div>
+                <button type="submit" title="<?php echo $this->__('Send Invites');?>" class="button" ><span class="invit_btn"><span><?php echo $this->__('Send Invites');?></span></span></button>
+        </div>
+    </form></div> <?php $refferalUrl = Mage::getModel('invitefriends/customer')->getRefferalLink(); ?>
+                      </div>
+
+                         </div>
+                         <ul>
+                             <li>
+                                 <a class="affiliates-sprite fblink"  target="_blank" href="http://www.facebook.com/sharer.php?s=100&p[title]=<?php echo Mage::helper('invitefriends')->getfbshareTitle();?>&p[summary]=<?php echo Mage::helper('invitefriends')->getfbshareDescription();?>&p[url]=<?php echo $refferalUrl?>&p[images][0]=<?php echo $siteLogo?>" title="<?php echo $this->__('Invite via Facebook');?>"> </a>
+                              </li>
+                             <li>
+                                 <a  target="_blank"  href="https://twitter.com/home/?status=<?php echo $refferalUrl ?>" title="<?php echo $this->__('Invite via Twitter');?>" class="affiliates-sprite tweetlink"></a></li>
+                             <li><a title="<?php echo $this->__('Invite via Email'); ?>" href="javascript:void(0);" onclick="document.getElementById('showmail').style.display='block';" class="affiliates-sprite maillink"></a></li>
+                             </ul>
+                         </div>
+                     </div>
+                     <div class="clear"></div>
+                     </div>
+</div>
+<!-- new templates -->
+
+<?php }?>
+<script type="text/javascript">
+    //<![CDATA[
+        var formvalidate = new VarienForm('form-validate');
+    //]]>
+
+</script>
+
+<?php $app_key = Mage::helper('invitefriends')->getfbappId();?>
+<script src="http://connect.facebook.net/en_US/all.js"> </script>
+<script type="text/javascript">
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+        window.open = null;
+        if (response.authResponse) {
+                FB.api('/me', function(response) {
+                     var facebook_id = response.id;
+                     updateFriendID(facebook_id);
+                })
+            }
+        }
+    });
+</script>
+<?php $getSessionId = Mage::getModel('core/cookie')->get('ref');
+if(!$getSessionId) { ?>
+<script type="text/javascript">
+//<![CDATA[
+var strRedirectUrl = "<?php echo $_SERVER['REQUEST_URI'];?>";
+function updateFriendID(facebook_id){
+if(facebook_id != ''){
+    var send_invitation_url = '<?php echo Mage::getBaseUrl(); ?>invitefriends/index/updatefriendid?facebookid='+facebook_id;
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+      }
+    else
+      {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    xmlhttp.open("POST",send_invitation_url,true);
+    xmlhttp.send();
+}
+}
+//]]>
+</script>
+<?php } ?>

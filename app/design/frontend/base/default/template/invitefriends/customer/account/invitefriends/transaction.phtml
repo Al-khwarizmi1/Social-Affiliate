@@ -1,0 +1,115 @@
+<?php 
+/**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_SocialAffiliate
+ * @version     0.1.2
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ * */
+?><div id="transaction_history_box">
+<?php echo $this->getToolbarHtml()?>
+<?php $transactions = $this->getTransaction();
+$currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+$count = $transactions->getSize();
+?>
+<table id="my-transaction-table" class="data-table">
+    <col width="1">
+    <col width="1">
+    <!-- <col width="1"> -->
+    <col width="1">
+    <col width="1">
+    <col width="1">
+    <?php if($count) { ?>    
+    <thead>
+            <tr>
+                <th><?php echo $this->__("Date")?></th>
+                <th><?php echo $this->__("Transaction Details")?></th>
+                <th style="text-align: center;"><?php echo $this->__("Credits").' '."(".$currencySymbol.")";?></th>
+                 <th style="text-align: center;"><?php echo $this->__("Debits").' '."(".$currencySymbol.")";?></th>
+                <th style="text-align: center;"><?php echo $this->__("Balance").' '."(".$currencySymbol.")";?></th>
+               
+            </tr>
+            
+        </thead>
+    <?php } ?>
+        <tbody>
+        <?php $i=0;
+        foreach($transactions as $transaction):
+            $customer_id = $transaction->getCustomerId();
+            if($customer_id)
+            {
+               $customer_data = Mage::getModel("customer/customer")->setWebsiteId(Mage::app()->getWebsite()->getId())->load($customer_id); 
+               $email = $customer_data->getEmail();
+               $trans = $this->__('Amount Credited for Purchase of').' '. $email;
+            }
+            else
+            {    
+            $getOrderId = $transaction->getOrderId();
+            if($getOrderId)
+            {
+                $trans = $this->__('Amount Debited for Order #').' '. $getOrderId;
+            }
+ else {
+     
+     $trans = $this->__('Bonus Amount for Friends purchase');
+ }
+            }
+           $debit= $transaction->getDebitAmount();
+           $bonus = $transaction->getBonusAmount();
+           $creditrowtotal = $transaction->getCreditAmount();
+           $creditrowtotals += $creditrowtotal;
+           //$creditrowtotal2 -=$debit;
+           if($debit){ 
+           $creditrowtotals = $creditrowtotals-$debit;
+           
+           }
+           if($bonus){ 
+           $creditrowtotals = $creditrowtotals+$bonus;
+           
+           }
+           $rowtotal = $creditrowtotals;
+            ?>
+            <tr>
+                    <td><?php echo $this->formatDate($transaction->getCreatedDate());?></td>
+                    <td><?php  echo $trans;?></td>
+                    <td class="affiliate_center"><?php if( (int)$transaction->getCreditAmount()) { echo number_format($transaction->getCreditAmount(),2); } else { if( (int)$transaction->getBonusAmount()) { echo number_format($transaction->getBonusAmount(),2); } else { echo '-'; } }  ?></span></td>
+                    <td class="affiliate_center"><?php if( (int)$transaction->getDebitAmount()) { echo number_format($transaction->getDebitAmount(),2); } else { echo '-'; } ?></td>
+                    <td class="affiliate_center"><?php  echo number_format($rowtotal,2); ?> </td>
+           	</tr>
+        <?php $i++; endforeach;
+        if(empty($i))
+        { ?>
+             <tr>
+                 <td colspan="10" class="affiliate_center"><?php echo $this->__('No Transaction found'); ?></td>
+             </tr>
+       <?php } ?>
+                
+      	</tbody>
+</table>
+
+<div class="transaction_note" style="padding-top:20px;"><?php echo $this->getChildHtml('note');?></div>
+<?php echo $this->getToolbarHtml()?>
+
+</div>
+<script type="text/javascript">decorateTable('my-transaction-table')</script>

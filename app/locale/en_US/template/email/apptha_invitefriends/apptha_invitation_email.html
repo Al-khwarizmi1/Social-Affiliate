@@ -1,0 +1,66 @@
+<!--@subject You have a invitation from {{var sender.name}}@-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt"}
+@-->
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+<tr>
+    <td align="center" valign="top" style="padding:20px 0 20px 0">
+        <!-- [ header starts here] -->
+        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+            <tr>
+                <td valign="top" align="left" ><a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" border="0"/></a></td>
+            </tr>
+          
+            <tr>
+                <td valign="top" align="center" >
+                    <table cellpadding="0" cellspacing="0" border="0" style="padding: 20px; background: #fff;
+width: 100%;">
+                        <tr>
+                            <td align="center">
+                                <h3 style="text-align: center;font:bold 21px arial; color: #333; margin: 0; padding: 0 0 10px 0;">Congratulations! </h3>
+                                <span style="font:bold 16px arial; text-align: center; color: #333;">You have been invited to join <a href="{{store url=""}}" target="_blank" style="color: #333;" >{{var logo_alt}}</a></span>
+                                <small style="font:bold 12px arial; padding-top: 10px; color: #333; display: block; text-align: center;">Discover Amazing thinks from great brands</small>
+                                <a href="{{var invitation_link}}" style="display: block;
+text-align: center;
+
+font: bold 19px 'Calibri',arial;
+color: #333;
+text-decoration: underline;
+padding: 5px 6px;
+margin-top: 20px;
+
+
+">Accept Invitation</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="font:normal 14px arial; color: #333;  padding: 8px;background: #EAEAEA; "><b>{{var sender.name}}</b> wants you to try <a href="{{store url=""}}" target="_blank" style="color: #333;"> {{var logo_alt}} </a>! Create your collection and share the things you love</td>
+            </tr>
+
+        <!-- [ middle starts here] -->
+
+            <tr>
+                <td >
+                    <ul style="margin: 5px 0 0 5px; padding: 0;">
+                        <li style="padding-bottom: 6px;"> <span style="font:normal 14px arial;  color: #333; "> Our Helpline number:  </span><span class="nobr" style="font:normal 14px arial;">{{config path='general/store_information/phone'}}</span></li>
+                             </ul>
+                </td>
+            </tr>
+            <!-- [ footer starts here] -->
+
+        </table>
+    </td>
+</tr>
+</table>
+</div>
+</body>
